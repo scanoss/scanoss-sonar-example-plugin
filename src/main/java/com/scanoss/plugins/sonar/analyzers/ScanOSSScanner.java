@@ -5,6 +5,7 @@ import com.scanoss.Scanner;
 import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
 
+import java.io.File;
 import java.util.Arrays;
 import java.util.List;
 
@@ -37,15 +38,35 @@ public class ScanOSSScanner {
     private static final Logger LOGGER = Loggers.get(ScanOSSScanner.class);
 
     /**
+     * SBOM identify file name
+     */
+    private final String sbomIdentify;
+
+
+    /**
+     * SBOM identify file name
+     */
+    private final String sbomIgnore;
+
+
+    /**
+     * The project root directory.
+     */
+    private final File rootDir;
+
+    /**
      * ScanOSSScanner Constructor
      * @param apiUrl Scan API Url
      * @param apiToken Scan API Token
      * @param customCertChain Custom Certificate Chain PEM
      */
-    public ScanOSSScanner(String apiUrl, String apiToken, String customCertChain){
+    public ScanOSSScanner(String apiUrl, String apiToken, String customCertChain, String sbomIdentify, String sbomIgnore, File rootDir){
         this.apiUrl = apiUrl;
         this.apiToken = apiToken;
         this.customCertChain = customCertChain;
+        this.sbomIdentify = sbomIdentify;
+        this.sbomIgnore = sbomIgnore;
+        this.rootDir = rootDir;
     }
 
     /**
@@ -72,6 +93,19 @@ public class ScanOSSScanner {
      */
     private Scanner buildScanner(){
         Scanner.ScannerBuilder scannerBuilder = Scanner.builder().url(this.apiUrl).apiKey(this.apiToken);
+        if(this.sbomIgnore != null && !this.sbomIgnore.isEmpty()){
+            LOGGER.info("[SCANOSS] SBOM ignore file: " + this.rootDir.getPath() + "/" + this.sbomIgnore);
+            scannerBuilder.sbomType("ignore");
+            scannerBuilder.sbom(this.sbomIgnore);
+        }
+
+        if(this.sbomIdentify !=null && !this.sbomIdentify.isEmpty()){
+            LOGGER.info("[SCANOSS] SBOM identify file: " + this.rootDir.getPath() + "/" + this.sbomIdentify);
+            scannerBuilder.sbomType("identify");
+            scannerBuilder.sbom(this.sbomIdentify);
+        }
+
+
         if(this.customCertChain != null && !this.customCertChain.isEmpty()) {
             LOGGER.info("[SCANOSS] Setting custom certificate chain");
             LOGGER.debug("[SCANOSS] {}", this.customCertChain);

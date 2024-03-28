@@ -48,6 +48,28 @@
    */
   public static final String SCANOSS_IS_ENABLED_KEY = "sonar.scanoss.scan.enabled";
 
+
+  /**
+   * SCANOSS Identify
+   */
+  public static final String SCANOSS_SBOM_IDENTIFY = "sonar.scanoss.scan.sbom_identify";
+
+  /**
+   * SCANOSS Identify default value
+   */
+  public static final String SCANOSS_SBOM_IDENTIFY_DEFAULT_VALUE = "";
+
+  /**
+   * SCANOSS Ignore
+   * */
+  public static final String SCANOSS_SBOM_IGNORE = "sonar.scanoss.scan.sbom_ignore";
+
+  /**
+   * SCANOSS Ignore default value
+   */
+  public static final String SCANOSS_SBOM_IGNORE_DEFAULT_VALUE = "";
+
+
   /**
    * Private constructor to allow only statics
    */
@@ -98,12 +120,32 @@
             .onQualifiers(Qualifiers.PROJECT)
             .index(3)
             .build();
+    PropertyDefinition sbomIdentify = PropertyDefinition.builder(SCANOSS_SBOM_IDENTIFY)
+            .multiValues(false)
+            .defaultValue(SCANOSS_SBOM_IDENTIFY_DEFAULT_VALUE)
+            .category("SCANOSS")
+            .name("SCANOSS SBOM IDENTIFY")
+            .description("SCANOSS SBOM identify filename")
+            .onQualifiers(Qualifiers.PROJECT)
+            .index(4)
+            .build();
+    PropertyDefinition sbomIgnore = PropertyDefinition.builder(SCANOSS_SBOM_IGNORE)
+            .multiValues(false)
+            .defaultValue(SCANOSS_SBOM_IGNORE_DEFAULT_VALUE)
+            .category("SCANOSS")
+            .name("SCANOSS SBOM IGNORE")
+            .description("SCANOSS SBOM ignore filename")
+            .onQualifiers(Qualifiers.PROJECT)
+            .index(5)
+            .build();
 
     return asList(
             isEnabled,
             apiUrl,
             apiToken,
-            customCertChain
+            customCertChain,
+            sbomIdentify,
+            sbomIgnore
     );
   }
 
