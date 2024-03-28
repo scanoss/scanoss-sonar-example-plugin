@@ -21,7 +21,7 @@
   /**
    * SCANOSS API URL Configuration default value
    */
-  public static final String SCANOSS_API_URL_DEFAULT_VALUE = "https://osskb.org/api/scan/direct";
+  public static final String SCANOSS_API_URL_DEFAULT_VALUE = "https://api.osskb.org/scan/direct";
 
   /**
    * SCANOSS API Token Configuration key
@@ -65,8 +65,8 @@
             .type(PropertyType.BOOLEAN)
             .defaultValue(String.valueOf(false))
             .category("SCANOSS")
-            .name("is Scan Enabled")
-            .description("Is Scan OSS scaning enblaed?")
+            .name("Enable SCANOSS")
+            .description("Enable or disable SCANOSS plugin")
             .onQualifiers(Qualifiers.PROJECT)
             .index(0)
             .build();
@@ -75,7 +75,7 @@
             .defaultValue(SCANOSS_API_URL_DEFAULT_VALUE)
             .category("SCANOSS")
             .name("Scan API URL")
-            .description("Scan API Endpoint with format \"http(s)://host:ip/api/scan/direct\". The --apiurl argument is used to pass it to the CLI.")
+            .description("Scan API Endpoint with format \"http(s)://host:ip/scan/direct\". The --apiurl argument is used to pass it to the CLI.")
             .onQualifiers(Qualifiers.PROJECT)
             .index(1)
             .build();
